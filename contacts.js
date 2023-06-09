@@ -5,22 +5,22 @@ const { readFile, writeFile } = require("fs/promises");
 const contactsPath = path.join(__dirname, "db", "contacts.json");
 
 async function listContacts() {
-  const contactsJson = await readFile(contactsPath, "utf-8");
-  return JSON.parse(contactsJson);
+  const contacts= await readFile(contactsPath, "utf-8");
+  return JSON.parse(contacts);
 }
 
 async function getContactById(contactId) {
-  const allContacts = await listContacts();
-  const result = allContacts.find((contact) => contact.id === contactId);
+  const contacts = await listContacts();
+  const result = contacts.find((item) => item.id === contactId);
   return result || null;
 }
 
 async function removeContact(contactId) {
-  const allContacts = await listContacts();
-  const removedContact = await getContactById(contactId);
-  const newContacts = allContacts.filter((contact) => contact.id !== contactId);
+  const contacts = await listContacts();
+  const removeContact = await getContactById(contactId);
+  const newContacts = contacts.filter((item) => item.id !== contactId);
   await writeFile(contactsPath, JSON.stringify(newContacts, null, 2));
-  return removedContact || null;
+  return removeContact || null;
 }
 
 async function addContact(name, email, phone) {
